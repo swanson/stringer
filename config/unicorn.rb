@@ -17,8 +17,19 @@ end
 after_fork do |_server, _worker|
   if defined?(ActiveRecord::Base)
     env = ENV["RACK_ENV"] || "development"
-    config = YAML.load(ERB.new(File.read("config/database.yml")).result)[env]
+    config = if ENV["DATABASE_URL"]
+               ENV["DATABASE_URL"]
+             else
+               YAML.load(ERB.new(File.read("config/database.yml")).result)[env]
+             end
+    level = if ENV["LOG_LEVEL"] == "info"
+              Logger::INFO
+            else
+              Logger::DEBUG
+            end
+
     ActiveRecord::Base.establish_connection(config)
+    ActiveRecord::Base.logger.level = level
   end
 end
 
