@@ -15,7 +15,7 @@ require_relative "factories"
 
 require "./app"
 
-Capybara.server = :webrick
+Capybara.server = :puma, { Silent: true }
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods

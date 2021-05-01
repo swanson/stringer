@@ -55,7 +55,6 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
-    kgio (2.11.3)
     loofah (2.9.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -70,6 +69,7 @@ GEM
     multi_xml (0.6.0)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
+    nio4r (2.5.7)
     nokogiri (1.11.3)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
@@ -85,6 +85,8 @@ GEM
       byebug (~> 11.0)
       pry (~> 0.13.0)
     public_suffix (4.0.6)
+    puma (5.2.2)
+      nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-protection (2.1.0)
@@ -97,7 +99,6 @@ GEM
       rack (>= 1.0)
       rack-test (>= 0.5)
     rainbow (3.0.0)
-    raindrops (0.19.1)
     rake (13.0.3)
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
@@ -191,9 +192,6 @@ GEM
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     unicode-display_width (2.0.0)
-    unicorn (6.0.0)
-      kgio (~> 2.6)
-      raindrops (~> 0.7)
     will_paginate (3.3.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
@@ -218,6 +216,7 @@ DEPENDENCIES
   nokogiri
   pg
   pry-byebug
+  puma
   rack-protection
   rack-ssl
   rack-test
@@ -241,7 +240,6 @@ DEPENDENCIES
   thread
   timecop
   uglifier
-  unicorn
   will_paginate
 
 RUBY VERSION

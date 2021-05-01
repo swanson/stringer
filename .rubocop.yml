@@ -33,6 +33,9 @@ Style/Documentation:
 Style/DoubleNegation:
   Enabled: false
 
+Style/MissingElse:
+  Enabled: false
+
 Style/NumericLiterals:
   Enabled: false
 

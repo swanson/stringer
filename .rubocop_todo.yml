@@ -495,7 +495,6 @@ Style/MissingElse:
     - 'app/fever_api/write_mark_item.rb'
     - 'app/helpers/url_helpers.rb'
     - 'app/repositories/story_repository.rb'
-    - 'config/unicorn.rb'
     - 'spec/support/coverage.rb'
 
 # Offense count: 1

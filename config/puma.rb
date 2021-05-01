@@ -1,10 +1,18 @@
-worker_processes 1
-timeout 30
-preload_app true
+workers workers Integer(ENV.fetch("WEB_CONCURRENCY", 1))
+threads_count = Integer(ENV.fetch("MAX_THREADS", 2))
+threads threads_count, threads_count
+
+rackup DefaultRackup
+port ENV.fetch("PORT", 3000)
+environment ENV.fetch("RACK_ENV", "development")
+
+worker_timeout Integer(ENV.fetch("PUMA_WORKER_TIMEOUT", 25))
+worker_shutdown_timeout Integer(ENV.fetch("PUMA_WORKER_SHUTDOWN_TIMEOUT", 25))
+preload_app!
 
 @delayed_job_pid = nil
 
-before_fork do |_server, _worker|
+before_fork do
   # the following is highly recommended for Rails + "preload_app true"
   # as there's no need for the master process to hold a connection
   ActiveRecord::Base.connection.disconnect! if defined?(ActiveRecord::Base)
@@ -14,7 +22,7 @@ before_fork do |_server, _worker|
   sleep 1
 end
 
-after_fork do |_server, _worker|
+on_worker_boot do
   if defined?(ActiveRecord::Base)
     env = ENV["RACK_ENV"] || "development"
     config = YAML.safe_load(ERB.new(File.read("config/database.yml")).result)[env]
@@ -22,6 +30,6 @@ after_fork do |_server, _worker|
   end
 end
 
-after_worker_exit do |_server, _worker, _status|
+on_worker_shutdown do
   Process.kill("QUIT", @delayed_job_pid) if !ENV["RACK_ENV"] || ENV["RACK_ENV"] == "development"
 end

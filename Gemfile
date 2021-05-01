@@ -2,11 +2,6 @@ ruby_version_file = File.expand_path(".ruby-version", __dir__)
 ruby File.read(ruby_version_file).chomp if File.readable?(ruby_version_file)
 source "https://rubygems.org"
 
-group :production do
-  gem "pg"
-  gem "unicorn"
-end
-
 group :development do
   gem "rubocop", require: false
   gem "rubocop-rails", require: false
@@ -37,6 +32,8 @@ gem "httparty"
 gem "i18n"
 gem "loofah"
 gem "nokogiri"
+gem "pg"
+gem "puma"
 gem "rack-protection"
 gem "racksh"
 gem "rack-ssl"
