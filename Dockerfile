@@ -1,4 +1,4 @@
-FROM ruby:2.3.3
+FROM ruby:2.7.2
 
 ENV RACK_ENV=production
 ENV PORT=8080
@@ -7,7 +7,7 @@ EXPOSE 8080
 
 WORKDIR /app
 ADD Gemfile Gemfile.lock /app/
-RUN bundle install --deployment
+RUN bundle config set --local deployment true && bundle install
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -21,22 +21,17 @@ RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales \
 
 ENV LC_ALL C.UTF-8
 
-ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.3/supercronic-linux-amd64 \
-    SUPERCRONIC=supercronic-linux-amd64 \
-    SUPERCRONIC_SHA1SUM=96960ba3207756bb01e6892c978264e5362e117e
+ARG SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.3/supercronic-linux-amd64
 
-RUN curl -fsSLO "$SUPERCRONIC_URL" \
- && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
- && chmod +x "$SUPERCRONIC" \
- && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
- && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
+ADD $SUPERCRONIC_URL /usr/local/bin/supercronic
+RUN chmod +x "/usr/local/bin/supercronic"
 
-ADD docker/supervisord.conf /etc/supervisord.conf
-ADD docker/start.sh /app/
-ADD . /app
+RUN useradd -m stringer && chown stringer:stringer /app
 
-RUN useradd -m stringer
-RUN chown -R stringer:stringer /app
+COPY --chown=stringer:stringer . /app
+COPY --chown=stringer:stringer docker/supervisord.conf /etc/supervisord.conf
+COPY --chown=stringer:stringer docker/start.sh /app/
+
 USER stringer
 
 CMD /app/start.sh
