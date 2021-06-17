@@ -5,6 +5,7 @@
 //= require jquery-visible-min.js
 //= require underscore-min.js
 //= require backbone-min.js
+//= require turbolinks-min.js
 
 _.templateSettings = {
   interpolate: /\{\{\=(.+?)\}\}/g,

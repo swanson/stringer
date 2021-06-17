@@ -32,11 +32,11 @@ zh-CN:
       title: 想要添加新内容？
     edit:
       fields:
-        feed_name: 
-        feed_url: 
-        submit: 
+        feed_name: 供稿名称
+        feed_url: 供稿地址
+        submit: 保存
       flash:
-        updated_successfully: 
+        updated_successfully: 你的订阅已经更新完毕，稍等一段时间就可以阅读啦
     index:
       add: 添加
       add_some_feeds: 你应该%{add}一些订阅哟~
@@ -97,7 +97,7 @@ zh-CN:
       keys:
         a: 添加新订阅
         bv: 转到原网址
-        f: 
+        f: 转到订阅列表
         jk: 下一个/上一个故事
         left: 上一页
         m: 将一个条目标为已读/未读
@@ -113,7 +113,7 @@ zh-CN:
       archive: 查看所有故事
       go_make: 去做些其它事了
       gtfo: 是时候停止阅读
-      rss_zero: 你已经达成了零RSS的任务&trade;
+      rss_zero: RSS=零
   sessions:
     destroy:
       flash:
